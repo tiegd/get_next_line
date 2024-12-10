@@ -10,11 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GNL_H
+#ifndef GET_NEXT_LINE_H
 
-# define GNL_H
+# define GET_NEXT_LINE_H
+
+#ifndef BUFFERSIZE
+# define BUFFERSIZE 25
+#endif
 
 #include <stdio.h>
 #include <unistd.h>
+#include <fcntl.h>
+
+char	*get_next_line(int fd);
 
 #endif

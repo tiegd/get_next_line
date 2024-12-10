@@ -10,4 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 
+char	*get_next_line(int fd)
+{
+
+}
+
+// int main()
+// {
+//     int fd;
+
+//     fd = open("test.txt", O_RDONLY);
+//     printf("%s", get_next_line(fd));
+// }
