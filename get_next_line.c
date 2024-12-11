@@ -12,15 +12,47 @@
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+t_list	*ft_lstnew(void *content)
 {
+	t_list	*new;
 
+	new = malloc(sizeof(t_list));
+	if (!new)
+		return (NULL);
+	new->str = content;
+	new->next = NULL;
+	return (new);
 }
 
-// int main()
-// {
-//     int fd;
+char	*newtab(char *buffer, t_list *lst)
+{
+	int	len;
+	int	i;
 
-//     fd = open("test.txt", O_RDONLY);
-//     printf("%s", get_next_line(fd));
-// }
+	i = 0;
+	len = ft_lstsize(lst);
+	buffer = malloc(len * sizeof(char));
+}
+
+char	*get_next_line(int fd)
+{
+    static char	*stock;
+	char		*buffer;
+	char		*result;
+	t_list		lst;
+	int			rd;
+
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	rd = read(fd, buffer, BUFFER_SIZE);
+	if (fd < 0)
+		return (NULL);
+	if (rd < 0)
+		return (NULL);
+	ft_lstnew(buffer);
+	while (buffer != '\n' && buffer != '\0')
+	{
+
+		buffer++;
+	}
+	return (result);
+}
