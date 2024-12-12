@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-int	ft_lstsize(t_list *lst)
+static int	ft_lstsize(t_list *lst)
 {
 	int	size;
 	int	i;
@@ -23,7 +23,7 @@ int	ft_lstsize(t_list *lst)
 	while (lst->next)
 	{
 		i = 0;
-		while (lst->str[i] != '\0' || lst->str != '\n')
+		while (lst->content[i] != '\0' || lst->content[i] != '\n')
 		{
 			size++;
 			i++;

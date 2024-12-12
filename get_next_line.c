@@ -12,14 +12,21 @@
 
 #include "get_next_line.h"
 
-t_list	*ft_lstnew_back(t_list *lst, void *content)
+static t_list	*ft_lstnew_addback(t_list *lst, char *str)
 {
 	t_list	*new;
+	int		i;
 
+	i = 0;
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	new->str = content;
+	new = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	while (str[i])
+	{
+		new->content[i] = str[i];
+		i++;
+	}
 	new->next = NULL;
 	while (lst->next)
 		lst = lst->next;
@@ -27,7 +34,39 @@ t_list	*ft_lstnew_back(t_list *lst, void *content)
 	return (lst);
 }
 
-char	*newtab(t_list *lst, char *stock)
+static void	ft_checkread(t_list **lst, int fd)
+{
+	int		rd;
+	char	*buff;
+
+	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
+		return (NULL);
+	rd = read(fd, buff, BUFFER_SIZE);
+	if (rd < 0)
+		ft_free_buff(buff);
+	else
+		ft_lstnew_addback(&lst, buff);
+}
+
+static void	ft_addrest(t_list **lst, char *stock)
+{
+	int	i;
+
+	i = 0;
+	(*lst)->content = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!(*lst)->content)
+		return (NULL);
+	while (stock[i])
+	{
+		(*lst)->content[i] = stock[i];
+		i++;
+	}
+	(*lst)->content[i] = '\0';
+	(*lst)->next = NULL;
+}
+
+static char	*newtab(t_list *lst, char *stock)
 {
 	char	*result;
 	int		sizelst;
@@ -40,23 +79,17 @@ char	*newtab(t_list *lst, char *stock)
 	while (lst->next)
 	{
 		j = 0;
-		if (lst->str == '\n')
+		while (lst->content)
 		{
-			result[i] = '\n';
-			while (lst->str != '/0')
-			{
-				*stock = lst->str[j];
-				j++;
-				*stock++;
-			}
+			result[i] = lst->content[j];
+			i++;
+			j++;
 		}
-		result[i] = lst->str[j];
-		result++;
 	}
 	return (result);
 }
 
-char	*ft_free_all(char *buffer)
+static char	*ft_free_buff(char *buffer)
 {
 	int	i;
 
@@ -71,23 +104,26 @@ char	*ft_free_all(char *buffer)
 
 char	*get_next_line(int fd)
 {
-    static char	*stock;
-	char		*buffer;
+    static char	*stock[BUFFER_SIZE + 1];
 	char		*result;
-	t_list		lst;
-	int			rd;
+	t_list		*lst;
 	int			i;
 
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	rd = read(fd, buffer, BUFFER_SIZE);
-	i = 0;
-	if (fd < 0)
+	result = NULL;
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
-	while (i <= rd)
+	if (stock[0] == '\0')
+		lst = NULL;
+	else
 	{
-		ft_lstnew_back(&lst, buffer);
+		lst = malloc(sizeof(t_list));
+		if (!lst)
+			return (NULL);
+		ft_addrest(&lst, stock);
 	}
-	newtab(&lst, stock);
-	ft_free_all(buffer);
+	ft_checkread(&lst, fd);
+	if (!lst)
+		return (NULL);
+	result = newtab(&lst, stock);
 	return (result);
 }
