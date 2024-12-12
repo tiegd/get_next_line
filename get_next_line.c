@@ -34,6 +34,19 @@ static t_list	*ft_lstnew_addback(t_list **lst, char *str)
 	return (*lst);
 }
 
+static void	*ft_free_buff(char *buffer)
+{
+	int	i;
+
+	i = 0;
+	while (*buffer)
+	{
+		free(buffer[i]);
+		i++;
+	}
+	return ;
+}
+
 static void	ft_checkread(t_list **lst, int fd)
 {
 	int		rd;
@@ -89,22 +102,9 @@ static char	*newtab(t_list *lst, char *stock)
 	return (result);
 }
 
-static void	*ft_free_buff(char *buffer)
-{
-	int	i;
-
-	i = 0;
-	while (*buffer)
-	{
-		free(buffer[i]);
-		i++;
-	}
-	return ;
-}
-
 char	*get_next_line(int fd)
 {
-    static char	*stock[BUFFER_SIZE + 1];
+    static char	stock[BUFFER_SIZE + 1];
 	char		*result;
 	t_list		*lst;
 	int			i;
