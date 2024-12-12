@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-static t_list	*ft_lstnew_addback(t_list *lst, char *str)
+static t_list	*ft_lstnew_addback(t_list **lst, char *str)
 {
 	t_list	*new;
 	int		i;
@@ -28,10 +28,10 @@ static t_list	*ft_lstnew_addback(t_list *lst, char *str)
 		i++;
 	}
 	new->next = NULL;
-	while (lst->next)
-		lst = lst->next;
-	lst->next = new;
-	return (lst);
+	while ((*lst)->next)
+		(*lst) = (*lst)->next;
+	(*lst)->next = new;
+	return (*lst);
 }
 
 static void	ft_checkread(t_list **lst, int fd)
@@ -41,7 +41,7 @@ static void	ft_checkread(t_list **lst, int fd)
 
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
-		return (NULL);
+		ft_free_buff(buff);
 	rd = read(fd, buff, BUFFER_SIZE);
 	if (rd < 0)
 		ft_free_buff(buff);
@@ -89,7 +89,7 @@ static char	*newtab(t_list *lst, char *stock)
 	return (result);
 }
 
-static char	*ft_free_buff(char *buffer)
+static void	*ft_free_buff(char *buffer)
 {
 	int	i;
 
@@ -99,7 +99,7 @@ static char	*ft_free_buff(char *buffer)
 		free(buffer[i]);
 		i++;
 	}
-	return (NULL);
+	return ;
 }
 
 char	*get_next_line(int fd)
