@@ -12,25 +12,6 @@
 
 #include "get_next_line.h"
 
-static int	ft_lstsize(t_list *lst)
-{
-	int	size;
-	int	i;
 
-	size = 1;
-	if (!lst)
-		return (0);
-	while (lst->next)
-	{
-		i = 0;
-		while (lst->content[i] != '\0' || lst->content[i] != '\n')
-		{
-			size++;
-			i++;
-		}
-		lst = lst->next;
-	}
-	return (size);
-}
 
 // char    *print_lst(t_list)

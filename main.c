@@ -3,8 +3,32 @@
 
 int	main()
 {
-	int fd;
+	int 	fd;
+	// char	*result;
 
 	fd = open("test.txt", O_RDONLY);
-	printf("%s", get_next_line(fd));
+	if (fd < 0)
+	{
+		printf("fd non valid\n");
+		return (0);
+	}
+	printf("Line 1 : %s\n", get_next_line(fd));
+	printf("\n");
+	printf("Line 2 : %s\n", get_next_line(fd));
+	printf("\n");
+	printf("Line 3 : %s\n", get_next_line(fd));
+	printf("\n");
+	printf("Line 4 : %s\n", get_next_line(fd));
+	printf("\n");
+	printf("Line 5 : %s\n", get_next_line(fd));
+	printf("\n");
+	printf("Line 6 : %s\n", get_next_line(fd));
+	printf("\n");
+
+	// while (1)
+	// {
+	// 	result = get_next_line(fd);
+	// 	printf("Line 1 : %s\n", result);
+	// 	printf("\n");
+	// }
 }
