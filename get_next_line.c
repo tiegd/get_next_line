@@ -66,6 +66,23 @@ char	*ft_lstfree(t_list **lst)
 }
 
 /*
+**	Free a string.
+*/
+
+void	ft_free_buff(char *buffer)
+{
+	int	i;
+
+	i = 0;
+	while (buffer[i])
+	{
+		free(buffer[i]);
+		i++;
+	}
+	free(buffer);
+}
+
+/*
 **	Creat a new element of list with a content in parameter.
 */
 
@@ -114,24 +131,6 @@ void	ft_lstaddback(t_list **lst, t_list *new)
 			tmp = tmp->next;
 		tmp->next = new;
 	}
-}
-
-/*
-**	Free a string.
-*/
-
-char	**ft_free_buff(char **buffer)
-{
-	int	i;
-
-	i = 0;
-	while (buffer[i])
-	{
-		free(buffer[i]);
-		i++;
-	}
-	free(buffer);
-	return (NULL);
 }
 
 /*
@@ -230,7 +229,7 @@ char	*newtab(t_list **lst)
 
 	result = malloc((ft_lstsizechar(lst) + 1) * sizeof(char));
 	if (!result)
-		return (*ft_free_buff(&result));
+		ft_free_buff(result);
 	i = 0;
 	tmp = *lst;
 	while (tmp)
