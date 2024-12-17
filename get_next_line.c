@@ -12,6 +12,10 @@
 
 #include "get_next_line.h"
 
+/*
+**	Return the total number of char in a list.
+*/
+
 int	ft_lstsizechar(t_list **lst)
 {
 	t_list	*tmp;
@@ -40,6 +44,10 @@ int	ft_lstsizechar(t_list **lst)
 	return (size);
 }
 
+/*
+**	Free a linked list.
+*/
+
 char	*ft_lstfree(t_list **lst)
 {
 	t_list	*buffer;
@@ -56,6 +64,10 @@ char	*ft_lstfree(t_list **lst)
 	}
 	return (NULL);
 }
+
+/*
+**	Creat a new element of list with a content in parameter.
+*/
 
 t_list	*ft_lstnew_content(t_list **lst, char *str)
 {
@@ -85,6 +97,10 @@ t_list	*ft_lstnew_content(t_list **lst, char *str)
 	return (*lst);
 }
 
+/*
+**	Add an element at the end of list.
+*/
+
 void	ft_lstaddback(t_list **lst, t_list *new)
 {
 	t_list	*tmp;
@@ -100,6 +116,10 @@ void	ft_lstaddback(t_list **lst, t_list *new)
 	}
 }
 
+/*
+**	Free a string.
+*/
+
 char	**ft_free_buff(char **buffer)
 {
 	int	i;
@@ -114,6 +134,10 @@ char	**ft_free_buff(char **buffer)
 	return (NULL);
 }
 
+/*
+**	Copy the characters after '\n', in stock.
+*/
+
 int	ft_stock(char *buff, char *stock)
 {
 	int	i;
@@ -121,10 +145,10 @@ int	ft_stock(char *buff, char *stock)
 
 	i = 0;
 	j = 0;
-	printf("buff = %s\n", buff);
 	while (buff[i])
 	{
-		if (buff[i] == '\n' && buff[i + 1] != '\0')
+		// if (buff[i] == '\n' && buff[i + 1] != '\0')
+		if (buff[i] == '\n')
 		{
 			i++;
 			while (buff[i])
@@ -141,6 +165,10 @@ int	ft_stock(char *buff, char *stock)
 	stock[0] = '\0';
 	return (1);
 }
+
+/*
+**	Read n elements of the first line with read() and copy in buff[].
+*/
 
 void	ft_new_line(t_list **lst, int fd, char *stock)
 {
@@ -167,6 +195,10 @@ void	ft_new_line(t_list **lst, int fd, char *stock)
 	}
 }
 
+/*
+**	Copy stock in the first list element.
+*/
+
 void	ft_add_stock(t_list **lst, char *stock)
 {
 	int	i;
@@ -175,7 +207,7 @@ void	ft_add_stock(t_list **lst, char *stock)
 	(*lst)->content = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!(*lst)->content)
 		ft_lstfree(lst);
-	while (stock[i])
+	while (i < BUFFER_SIZE && stock[i])
 	{
 		(*lst)->content[i] = stock[i];
 		stock[i] = '\0';
@@ -185,31 +217,32 @@ void	ft_add_stock(t_list **lst, char *stock)
 	(*lst)->next = NULL;
 }
 
+/*
+**	Copy each list element in the result tab.
+*/
+
 char	*newtab(t_list **lst)
 {
 	t_list	*tmp;
 	char	*result;
-	int		sizelst;
 	int		i;
 	int		j;
 
-	sizelst = ft_lstsizechar(lst);
-	printf("sizelst = %d\n", sizelst);
-	result = malloc((sizelst + 1) * sizeof(char));
+	result = malloc((ft_lstsizechar(lst) + 1) * sizeof(char));
 	if (!result)
 		return (*ft_free_buff(&result));
 	i = 0;
 	tmp = *lst;
-	while (tmp->next)
+	while (tmp)
 	{
 		j = 0;
-		while (tmp->content[i] != '\0' && tmp->content[i] != '\n')
+		// while (tmp->content[j] != '\0' && tmp->content[j] != '\n')
+		while (tmp->content[j] != '\0')
 		{
-			result[i] = tmp->content[j];
-			i++;
-			j++;
+			result[i++] = tmp->content[j++];
+			if (tmp->content[j - 1] == '\n')
+				break;
 		}
-		printf("tmp->content = %s\n", tmp->content);
 		tmp = tmp->next;
 	}
 	return (result);
@@ -233,9 +266,7 @@ char	*get_next_line(int fd)
 			return (ft_lstfree(&lst));
 		ft_add_stock(&lst, stock);
 	}
-	// printf("stock apres premier appel = %s\n", stock);
 	ft_new_line(&lst, fd, stock);
-	// printf("Apres ft_checkread\n");
 	result = newtab(&lst);
 	return (result);
 }

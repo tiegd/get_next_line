@@ -24,6 +24,8 @@ int	main()
 	printf("\n");
 	printf("Line 6 : %s\n", get_next_line(fd));
 	printf("\n");
+	printf("Line 7 : %s\n", get_next_line(fd));
+	printf("\n");
 
 	// while (1)
 	// {
