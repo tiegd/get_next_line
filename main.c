@@ -4,7 +4,6 @@
 int	main()
 {
 	int 	fd;
-	// char	*result;
 
 	fd = open("test.txt", O_RDONLY);
 	if (fd < 0)
@@ -26,11 +25,6 @@ int	main()
 	printf("\n");
 	printf("Line 7 : %s\n", get_next_line(fd));
 	printf("\n");
-
-	// while (1)
-	// {
-	// 	result = get_next_line(fd);
-	// 	printf("Line 1 : %s\n", result);
-	// 	printf("\n");
-	// }
+	printf("Line 8 : %s\n", get_next_line(fd));
+	printf("\n");
 }

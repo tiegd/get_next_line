@@ -13,15 +13,13 @@
 #ifndef GET_NEXT_LINE_H
 
 # define GET_NEXT_LINE_H
-
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 16
-#endif
+# include <stdio.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
 
 typedef struct s_list
 {
@@ -29,15 +27,15 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-t_list	*ft_lstnew_content(t_list **lst, char *str);
-void	ft_lstaddback(t_list **lst, t_list *new);
-char	**ft_free_buff(char **buffer);
-char	*ft_lstfree(t_list **lst);
-int		ft_stock(char *buff, char *stock);
+char	*get_next_line(int fd);
+int		ft_lst_size(t_list *lst);
+void	ft_lstfree(t_list **lst);
+int		ft_checklst(t_list *lst);
+void	ft_lstnew_back(t_list **lst, char *str, int len);
+t_list	*ft_lstlast(t_list *lst);
+char	*ft_stock(t_list **lst, char *stock);
 void	ft_new_line(t_list **lst, int fd, char *stock);
 void	ft_add_stock(t_list **lst, char *stock);
-char	*newtab(t_list **lst);
-int		ft_lstsizechar(t_list **lst);
-char	*get_next_line(int fd);
+char	*ft_newtab(t_list **lst);
 
 #endif
