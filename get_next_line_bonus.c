@@ -70,6 +70,7 @@ void	ft_new_line(t_list **lst, int fd, char *stock)
 		}
 		buff[rd] = '\0';
 		ft_lstnew_back(lst, buff, rd);
+		free(buff);
 		if (!*lst)
 			return (ft_lstfree(lst));
 	}
