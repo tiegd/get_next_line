@@ -139,7 +139,7 @@ char	*get_next_line(int fd)
 	t_list		*lst;
 
 	result = NULL;
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (stock[0] == '\0')
 		lst = NULL;
@@ -151,6 +151,8 @@ char	*get_next_line(int fd)
 		ft_add_stock(&lst, stock);
 	}
 	ft_new_line(&lst, fd, stock);
+	if (!lst)
+		return (NULL);
 	result = ft_newtab(&lst);
 	ft_stock(&lst, stock);
 	ft_lstfree(&lst);

@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 1
 # endif
 
 typedef struct s_list
@@ -33,9 +33,5 @@ void	ft_lstfree(t_list **lst);
 int		ft_checklst(t_list *lst);
 void	ft_lstnew_back(t_list **lst, char *str, int len);
 t_list	*ft_lstlast(t_list *lst);
-char	*ft_stock(t_list **lst, char *stock);
-void	ft_new_line(t_list **lst, int fd, char *stock);
-void	ft_add_stock(t_list **lst, char *stock);
-char	*ft_newtab(t_list **lst);
 
 #endif

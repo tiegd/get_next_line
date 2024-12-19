@@ -16,7 +16,7 @@
 **	Copy the characters after '\n', in stock.
 */
 
-char	*ft_stock(t_list **lst, char stock[BUFFER_SIZE + 1])
+static char	*ft_stock(t_list **lst, char stock[BUFFER_SIZE + 1])
 {
 	t_list	*last;
 	int		i;
@@ -49,7 +49,7 @@ char	*ft_stock(t_list **lst, char stock[BUFFER_SIZE + 1])
 **	Read n elements of the first line with read() and copy in buff[].
 */
 
-void	ft_new_line(t_list **lst, int fd, char *stock)
+static void	ft_new_line(t_list **lst, int fd, char *stock)
 {
 	int		rd;
 	char	*buff;
@@ -57,7 +57,7 @@ void	ft_new_line(t_list **lst, int fd, char *stock)
 	rd = 1;
 	while (ft_checklst(*lst) == 0 && (rd != 0))
 	{
-		buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		buff = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!buff)
 			return (ft_lstfree(lst));
 		rd = read(fd, buff, BUFFER_SIZE);
@@ -80,7 +80,7 @@ void	ft_new_line(t_list **lst, int fd, char *stock)
 **	Copy stock in the first list element.
 */
 
-void	ft_add_stock(t_list **lst, char *stock)
+static void	ft_add_stock(t_list **lst, char *stock)
 {
 	int	i;
 
@@ -103,7 +103,7 @@ void	ft_add_stock(t_list **lst, char *stock)
 **	Copy each list element in the result tab.
 */
 
-char	*ft_newtab(t_list **lst)
+static char	*ft_newtab(t_list **lst)
 {
 	t_list	*tmp;
 	char	*result;
@@ -139,7 +139,7 @@ char	*get_next_line(int fd)
 	t_list		*lst;
 
 	result = NULL;
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (stock[0] == '\0')
 		lst = NULL;
@@ -151,6 +151,8 @@ char	*get_next_line(int fd)
 		ft_add_stock(&lst, stock);
 	}
 	ft_new_line(&lst, fd, stock);
+	if (!lst)
+		return (NULL);
 	result = ft_newtab(&lst);
 	ft_stock(&lst, stock);
 	ft_lstfree(&lst);

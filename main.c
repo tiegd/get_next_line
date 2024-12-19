@@ -5,6 +5,9 @@ int	main()
 	int 	fd;
 
 	fd = open("test.txt", O_RDONLY);
+	// fd = open("empty.txt", O_RDWR);
+	// fd = 1000;
+	printf("fd = %d\n", fd);
 	if (fd < 0)
 	{
 		printf("fd non valid\n");
