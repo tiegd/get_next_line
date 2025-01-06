@@ -2,31 +2,24 @@
 
 int	main()
 {
-	int 	fd;
+	int 	fd1;
+	int		fd2;
+	char	*result1;
+	char	*result2;
 
-	fd = open("test.txt", O_RDONLY);
-	// fd = open("empty.txt", O_RDWR);
-	// fd = 1000;
-	printf("fd = %d\n", fd);
-	if (fd < 0)
+	fd1 = open("test.txt", O_RDONLY);
+	fd2 = open("test2.txt", O_RDONLY);
+	while (1)
 	{
-		printf("fd non valid\n");
-		return (0);
+		result1 = get_next_line(fd1);
+		if (!result1)
+			break ;
+		printf("fd1 : %s\n", result1);
+		free(result1);
+		result2 = get_next_line(fd2);
+		if (!result2)
+			break ;
+		printf("fd2 : %s\n", result2);
+		free(result2);
 	}
-	printf("Line 1 : %s\n", get_next_line(fd));
-	printf("\n");
-	printf("Line 2 : %s\n", get_next_line(fd));
-	printf("\n");
-	printf("Line 3 : %s\n", get_next_line(fd));
-	printf("\n");
-	printf("Line 4 : %s\n", get_next_line(fd));
-	printf("\n");
-	printf("Line 5 : %s\n", get_next_line(fd));
-	printf("\n");
-	printf("Line 6 : %s\n", get_next_line(fd));
-	printf("\n");
-	printf("Line 7 : %s\n", get_next_line(fd));
-	printf("\n");
-	printf("Line 8 : %s\n", get_next_line(fd));
-	printf("\n");
 }
