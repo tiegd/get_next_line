@@ -86,7 +86,7 @@ void	ft_lstnew_back(t_list **lst, char *str, int len)
 	if (!new->content)
 	{
 		free(new);
-		ft_lstfree(lst);
+		return (ft_lstfree(lst));
 	}
 	i = -1;
 	while (++i < len)

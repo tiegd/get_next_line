@@ -134,27 +134,27 @@ static char	*ft_newtab(t_list **lst)
 
 char	*get_next_line(int fd)
 {
-	static char	stock[BUFFER_SIZE + 1];
+	static char	stock[1024][BUFFER_SIZE + 1];
 	char		*result;
 	t_list		*lst;
 
 	result = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (stock[0] == '\0')
+	if (stock[fd][0] == '\0')
 		lst = NULL;
 	else
 	{
 		lst = malloc(sizeof(t_list));
 		if (!lst)
 			return (NULL);
-		ft_add_stock(&lst, stock);
+		ft_add_stock(&lst, stock[fd]);
 	}
-	ft_new_line(&lst, fd, stock);
+	ft_new_line(&lst, fd, stock[fd]);
 	if (!lst)
 		return (NULL);
 	result = ft_newtab(&lst);
-	ft_stock(&lst, stock);
+	ft_stock(&lst, stock[fd]);
 	ft_lstfree(&lst);
 	return (result);
 }
